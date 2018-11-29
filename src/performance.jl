@@ -8,6 +8,7 @@ end
 
 function SI_prefix_convert(q::Quantity)
     v = ustrip(q)
+    v == 0.0 && return q
     e = 3*(abs(v) > 1 ? floor(Int, log10(abs(v))/3) : -ceil(Int,log10(1/abs(v))/3))
     (v/10.0^e)*shift_prefix(unit(q), e)
 end
