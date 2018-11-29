@@ -26,14 +26,14 @@ function SolverTrace(num_steps::Int,
     SolverTrace(num_steps, 0, print_interval, progress, columns)
 end
 
-push!(trace::SolverTrace, column::TraceColumn) =
-    push!(trace.columns, column)
+push!(s::SolverTrace, column::TraceColumn) = push!(s.columns, column)
 
 clear_current_line(io::IO=stdout) = print(io, "\r\u1b[K")
 
-function print_header(s::SolverTrace)
-    println(crayon"underline", join(map(column -> column.header, s.columns), " "), crayon"reset")
-end
+print_header(s::SolverTrace) =
+    println(crayon"underline",
+            join(map(column -> column.header, s.columns), " "),
+            crayon"reset")
 
 next!(::Nothing) = nothing
 next!(progress::Progress) = ProgressMeter.next!(progress)
