@@ -11,11 +11,11 @@ end
 function SolverTrace(num_steps::Int,
                      columns::TraceColumn...;
                      num_printouts::Integer=min(num_steps,10),
-                     barglyphs=BarGlyphs("[+> ]"), barlen=50)
+                     kwargs...)
     columns = Vector{TraceColumn}([columns...])
     isempty(columns) && push!(columns, CurrentStep(num_steps))
 
-    progress = Progress(num_steps; barglyphs=barglyphs, barlen=barlen)
+    progress = Progress(num_steps; kwargs...)
     SolverTrace(num_steps, 0, num_printouts, progress, columns)
 end
 
