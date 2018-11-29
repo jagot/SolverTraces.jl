@@ -22,9 +22,7 @@ end
 push!(trace::SolverTrace, column::TraceColumn) =
     push!(trace.columns, column)
 
-function clear_current_line()
-    print("\33[2K\r")
-end
+clear_current_line(io::IO=stdout) = print(io, "\r\u1b[K")
 
 function print_header(s::SolverTrace)
     println(crayon"underline", join(map(column -> column.header, s.columns), " "), crayon"reset")
@@ -33,7 +31,10 @@ end
 function next!(s::SolverTrace)
     s.i += 1
     if s.i%(s.num_steps÷s.num_printouts) == 0 || s.i==1
-        clear_current_line()
+        # Carriage return & clearing has to be done on stderr since
+        # ProgressMeter prints to that stream; this is important on
+        # Windows.
+        clear_current_line(stderr)
         println(join(map(column -> format(column.fmt, column(s.i)...), s.columns), " "))
     end
     ProgressMeter.next!(s.progress)
