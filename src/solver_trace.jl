@@ -1,5 +1,3 @@
-import Base: push!
-
 mutable struct SolverTrace{P}
     num_steps::Int
     i::Int
@@ -14,9 +12,8 @@ function SolverTrace(num_steps::Int,
                      num_printouts::Integer=min(num_steps,10),
                      progress_meter::Bool=true,
                      callbacks::Vector=[],
+                     print_interval = num_printouts > num_steps ? 1 : num_steps÷num_printouts,
                      kwargs...)
-    print_interval = num_printouts > num_steps ? 1 : num_steps÷num_printouts
-
     columns = Vector{TraceColumn}([columns...])
     isempty(columns) && push!(columns, CurrentStep(num_steps))
 
@@ -28,7 +25,7 @@ function SolverTrace(num_steps::Int,
     SolverTrace(num_steps, 0, print_interval, progress, columns, callbacks)
 end
 
-push!(s::SolverTrace, column::TraceColumn) = push!(s.columns, column)
+Base.push!(s::SolverTrace, column::TraceColumn) = push!(s.columns, column)
 
 clear_current_line(io::IO=stdout) = print(io, "\r\u1b[K")
 
