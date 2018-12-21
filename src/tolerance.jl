@@ -16,6 +16,7 @@ mutable struct Tolerance{T<:AbstractFloat} <: TraceColumn
     lc::LinearColorant{T}
     header::String
 end
+
 function Tolerance(target::T,header="Tolerance";print_target::Bool=true) where T
     tb,te = base_exp(target)
     tol_fmt = FormatExpr("{1:.2f}×10{2:3s}")
@@ -29,10 +30,15 @@ function Tolerance(target::T,header="Tolerance";print_target::Bool=true) where T
     lc = LinearColorant(one(T),zero(T),red_green_scale())
     Tolerance{T}(target,T(Inf),fmt,tol_fmt,lc,rpad(header,length(target_str)+10))
 end
-function(t::Tolerance)(i::Integer)
-    tb,te = base_exp(abs(t.current))
-    (t.lc((log10(t.target)-log10(t.current))/log10(t.target)),
-     format(t.tol_fmt,tb,to_superscript(te)))
+
+function(t::Tolerance{T})(i::Integer) where T
+    if isinf(t.current) || isnan(t.current)
+        t.lc(one(T)),string(t.current)
+    else
+        tb,te = base_exp(abs(t.current))
+        (t.lc((log10(t.target)-log10(t.current))/log10(t.target)),
+         format(t.tol_fmt,tb,to_superscript(te)))
+    end
 end
 
 export Tolerance
