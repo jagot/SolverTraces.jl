@@ -34,10 +34,10 @@ print_header(s::SolverTrace) =
             join(map(column -> column.header, s.columns), " "),
             crayon"reset")
 
-next!(::Nothing) = nothing
-next!(progress::Progress) = ProgressMeter.next!(progress)
+next!(::Nothing; kwargs...) = nothing
+next!(progress::Progress; kwargs...) = ProgressMeter.next!(progress; kwargs...)
 
-function next!(s::SolverTrace)
+function next!(s::SolverTrace; kwargs...)
     s.i += 1
     if s.i%s.print_interval == 0 || s.i==1
         # Carriage return & clearing has to be done on stderr since
@@ -47,7 +47,7 @@ function next!(s::SolverTrace)
         println(join(map(column -> format(column.fmt, column(s.i)...), s.columns), " "))
         foreach(f -> f(s.i), s.callbacks)
     end
-    next!(s.progress)
+    next!(s.progress; kwargs...)
 end
 
 export SolverTrace, print_header
