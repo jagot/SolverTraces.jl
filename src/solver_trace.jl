@@ -50,4 +50,12 @@ function next!(s::SolverTrace; kwargs...)
     next!(s.progress; kwargs...)
 end
 
-export SolverTrace, print_header
+struct ColumnSeparator <: TraceColumn
+    fmt::FormatExpr
+    header::String
+end
+
+ColumnSeparator() = ColumnSeparator(FormatExpr("│"), " ")
+(c::ColumnSeparator)(i::Integer) = ()
+
+export SolverTrace, print_header, ColumnSeparator
