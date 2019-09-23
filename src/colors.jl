@@ -1,5 +1,12 @@
-ilerp(a,b,t) = round(Int, (1-t)*a + t*b)
-sat_ilerp(a,b,t) = round(Int,clamp(2(1-t)*a + 2t*b,0,255))
+function safe_lerp(a, b, t::T) where T
+    isnan(t) && return a
+    if !isfinite(t)
+        t = sign(t) == 1 ? one(T) : zero(T)
+    end
+    (one(T)-t)*a + t*b
+end
+ilerp(a,b,t) = round(Int, safe_lerp(a, b, t))
+sat_ilerp(a,b,t) = clamp(ilerp(2a,2b,t),0,255)
 
 red_green_scale() = @static Sys.iswindows() ? [crayon"light_red", crayon"yellow", crayon"light_green"] : ((255, 0, 0), (0, 255, 0))
 
