@@ -3,8 +3,12 @@ using UnicodeFun
 function base_exp(v::T) where {T<:AbstractFloat}
     v == zero(T) && return (zero(T),0)
     r = log10(v)
-    e = floor(Int,r)
+    e = round(Int,r)
     b = T(10)^(r-e)
+    if abs(b) < 1 && abs(abs(b)-1) > 1e-2
+        b *= 10
+        e -= 1
+    end
     b,e
 end
 
