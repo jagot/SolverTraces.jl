@@ -9,6 +9,7 @@ export TraceColumn
 include("colors.jl")
 include("current_step.jl")
 include("performance.jl")
+include("scalar_column.jl")
 include("tolerance.jl")
 include("solver_trace.jl")
 
