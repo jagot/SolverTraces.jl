@@ -37,9 +37,10 @@ print_header(s::SolverTrace) =
 next!(::Nothing; kwargs...) = nothing
 next!(progress::Progress; kwargs...) = ProgressMeter.next!(progress; kwargs...)
 
-function next!(s::SolverTrace; kwargs...)
+function next!(fun::Function, s::SolverTrace; kwargs...)
     s.i += 1
     if s.i%s.print_interval == 0 || s.i==1
+        fun()
         # Carriage return & clearing has to be done on stderr since
         # ProgressMeter prints to that stream; this is important on
         # Windows.
@@ -49,6 +50,7 @@ function next!(s::SolverTrace; kwargs...)
     end
     next!(s.progress; kwargs...)
 end
+next!(s::SolverTrace; kwargs...) = next!(() -> nothing, s; kwargs...)
 
 struct ColumnSeparator <: TraceColumn
     fmt::FormatExpr
