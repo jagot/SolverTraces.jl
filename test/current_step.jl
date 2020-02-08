@@ -1,5 +1,3 @@
-using Formatting
-
 @testset "Current step" begin
     N = 10
     lc = LinearColorant(1, N, [crayon"light_red", crayon"yellow", crayon"light_green"])

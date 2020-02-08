@@ -45,7 +45,7 @@ function next!(fun::Function, s::SolverTrace; kwargs...)
         # ProgressMeter prints to that stream; this is important on
         # Windows.
         clear_current_line(stderr)
-        println(join(map(column -> format(column.fmt, column(s.i)...), s.columns), " "))
+        println(join(map(column -> format(column, s.i), s.columns), " "))
         foreach(f -> f(s.i), s.callbacks)
     end
     next!(s.progress; kwargs...)

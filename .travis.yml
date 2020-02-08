@@ -22,6 +22,6 @@ jobs:
       script: julia --project=docs -e '
           using Pkg;
           Pkg.develop(PackageSpec(path=pwd()));
-          Pkg.instantiate();
+          Pkg.instantiate(); Pkg.add("Unitful");
           include("docs/make.jl");'
       after_success: skip
