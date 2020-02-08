@@ -13,7 +13,6 @@ end
     test_base_exp(0.1, 1.0, -1)
     test_base_exp(-0.01π, -π, -2)
 
-    # Need to fix tests for Windows
 
     t = Tolerance(1e-3)
     t.current=1.0
@@ -27,7 +26,7 @@ end
 
     t.current=1e-3
     @test is_esc_str_equal(format(t, 1), "\e[38;2;0;255;0m1.00×10⁻³ \e[0m(10⁻³)")
-    
+
     t = Tolerance(1e-3, print_target=false)
     t.current=1.0
     @test is_esc_str_equal(format(t, 1), "\e[38;2;255;0;0m1.00×10⁰  \e[0m")
@@ -40,4 +39,13 @@ end
 
     t.current=1e-3
     @test is_esc_str_equal(format(t, 1), "\e[38;2;0;255;0m1.00×10⁻³ \e[0m")
+
+    t.current=Inf
+    @test is_esc_str_equal(format(t, 1), "\e[38;2;255;0;0mInf       \e[0m")
+
+    t.current=-Inf
+    @test is_esc_str_equal(format(t, 1), "\e[38;2;255;0;0m-Inf      \e[0m")
+
+    t.current=NaN
+    @test is_esc_str_equal(format(t, 1), "\e[38;2;255;0;0mNaN       \e[0m")
 end
