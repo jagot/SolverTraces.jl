@@ -2,6 +2,12 @@
 #+AUTHOR: Stefanos Carlström
 #+EMAIL: stefanos.carlstrom@gmail.com
 
+[[https://jagot.github.io/SolverTraces.jl/stable][https://img.shields.io/badge/docs-stable-blue.svg]]
+[[https://jagot.github.io/SolverTraces.jl/dev][https://img.shields.io/badge/docs-dev-blue.svg]]
+[[https://travis-ci.com/jagot/SolverTraces.jl][https://travis-ci.com/jagot/SolverTraces.jl.svg?branch=master]]
+[[https://ci.appveyor.com/project/jagot/SolverTraces-jl][https://ci.appveyor.com/api/projects/status/github/jagot/SolverTraces.jl?svg=true]]
+[[https://codecov.io/gh/jagot/SolverTraces.jl][https://codecov.io/gh/jagot/SolverTraces.jl/branch/master/graph/badge.svg]]
+
 Small utility library for printing solver traces. Based around
 [[https://github.com/JuliaIO/Formatting.jl][Formatting.jl]] and [[https://github.com/KristofferC/Crayons.jl][Crayons.jl]].
 
