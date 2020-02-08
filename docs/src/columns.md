@@ -16,6 +16,8 @@ CurrentStep(num_steps::Integer;
 ```@docs
 Performance
 Performance(load::Number, load_name::String="Performance")
+SolverTraces.shift_prefix
+SolverTraces.SI_prefix_convert
 ```
 
 ## ScalarColumn
@@ -29,4 +31,11 @@ ScalarColumn(n::Function, header::String, ::Type{R}, signed=false) where {R<:Rea
 ```@docs
 Tolerance
 Tolerance(target::T,header="Tolerance";print_target::Bool=true) where T
+SolverTraces.base_exp
+```
+
+## ColumnSeparator
+
+```@docs
+ColumnSeparator
 ```
