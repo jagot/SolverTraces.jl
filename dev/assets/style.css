@@ -1,0 +1,8 @@
+.repl {
+    white-space: pre;
+    font-family: "Roboto Mono", "SFMono-Regular", "Menlo", "Consolas", "Liberation Mono", "DejaVu Sans Mono", monospace;
+    background-color: #333333;
+    color: #eee;
+    padding-left: 1em;
+    padding-right: 1em;
+}
