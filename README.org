@@ -11,7 +11,7 @@
 Small utility library for printing solver traces. Based around
 [[https://github.com/JuliaIO/Formatting.jl][Formatting.jl]] and [[https://github.com/KristofferC/Crayons.jl][Crayons.jl]].
 
-Usage:
+* Usage example
 
 #+BEGIN_SRC julia
   using SolverTraces
@@ -56,3 +56,11 @@ Output on Linux with 24 bit colours available:
 
 Output on Windows with 16 colours available:
 [[file:figures/windows.png]]
+
+* Future ideas
+  - Nested solver traces for algorithms where each step necessitates
+    inner solves. It would be interesting to support such cases and
+    have togglable visibility of nested traces.
+  - Output to other backends than the terminal,
+    e.g. HTML: asynchronous display of solver trace in the web browser
+    of a computation running remotely.
