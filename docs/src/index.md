@@ -38,6 +38,15 @@ which will give output similar to this:
 
 ```@docs
 SolverTrace
+SolverTrace(num_steps::Int,
+            column::TraceColumn = CurrentStep(num_steps),
+            columns::TraceColumn...;
+            io::IO=stdout,
+            num_printouts::Integer=min(num_steps,10),
+            progress_meter::Bool=true,
+            callbacks=(),
+            print_interval = num_printouts > num_steps ? 1 : num_steps÷num_printouts,
+            kwargs...)
 print_header
 SolverTraces.next!
 ```
