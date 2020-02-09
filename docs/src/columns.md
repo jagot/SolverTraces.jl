@@ -24,6 +24,7 @@ SolverTraces.SI_prefix_convert
 ```@docs
 ScalarColumn
 ScalarColumn(n::Function, header::String, ::Type{R}, signed=false) where {R<:Real}
+ScalarColumn(n::R, header::String, signed=false) where {R<:Real}
 ```
 
 
