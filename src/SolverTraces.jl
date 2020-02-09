@@ -2,6 +2,7 @@ module SolverTraces
 using Crayons
 using Formatting
 using ProgressMeter
+using Compat
 
 """
     TraceColumn
