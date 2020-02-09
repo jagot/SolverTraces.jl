@@ -12,13 +12,13 @@ function test_esc_str_equal(a,b)
     else
         a,b
     end
-    if a ≠ b
+    if A ≠ A
         println("Got:")
         println(a)
         println("Expected:")
         println(b)
     end
-    @test a == b
+    @test A == A
 end
 
 include("colors.jl")
