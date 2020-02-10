@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Home · SolverTraces.jl</title><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/fontawesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/solid.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/brands.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL="."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" data-main="assets/documenter.js"></script><script src="siteinfo.js"></script><script src="../versions.js"></script><link href="assets/style.css" rel="stylesheet" type="text/css"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-dark.css" data-theme-name="documenter-dark"/><link class="docs-theme-link" rel="stylesheet" type="text/css" href="assets/themes/documenter-light.css" data-theme-name="documenter-light" data-theme-primary/><script src="assets/themeswap.js"></script></head><body><div id="documenter"><nav class="docs-sidebar"><div class="docs-package-name"><span class="docs-autofit">SolverTraces.jl</span></div><form class="docs-search" action="search/"><input class="docs-search-query" id="documenter-search-query" name="q" type="text" placeholder="Search docs"/></form><ul class="docs-menu"><li class="is-active"><a class="tocitem" href>Home</a><ul class="internal"><li class="toplevel"><a class="tocitem" href="#Usage-example-1"><span>Usage example</span></a></li><li><a class="tocitem" href="#Optim.jl-1"><span>Optim.jl</span></a></li><li class="toplevel"><a class="tocitem" href="#Reference-1"><span>Reference</span></a></li></ul></li><li><a class="tocitem" href="columns/">Solver Trace Columns</a></li><li><a class="tocitem" href="colors/">Colors</a></li></ul><div class="docs-version-selector field has-addons"><div class="control"><span class="docs-label button is-static is-size-7">Version</span></div><div class="docs-selector control is-expanded"><div class="select is-fullwidth is-size-7"><select id="documenter-version-selector"></select></div></div></div></nav><div class="docs-main"><header class="docs-navbar"><nav class="breadcrumb"><ul class="is-hidden-mobile"><li class="is-active"><a href>Home</a></li></ul><ul class="is-hidden-tablet"><li class="is-active"><a href>Home</a></li></ul></nav><div class="docs-right"><a class="docs-edit-link" href="https://github.com/jagot/SolverTraces.jl/blob/master/docs/src/index.md#L" title="Edit on GitHub"><span class="docs-icon fab"></span><span class="docs-label is-hidden-touch">Edit on GitHub</span></a><a class="docs-settings-button fas fa-cog" id="documenter-settings-button" href="#" title="Settings"></a><a class="docs-sidebar-button fa fa-bars is-hidden-desktop" id="documenter-sidebar-button" href="#"></a></div></header><article class="content" id="documenter-page"><h1 id="SolverTraces.jl-1"><a class="docs-heading-anchor" href="#SolverTraces.jl-1">SolverTraces.jl</a><a class="docs-heading-anchor-permalink" href="#SolverTraces.jl-1" title="Permalink"></a></h1><h1 id="Usage-example-1"><a class="docs-heading-anchor" href="#Usage-example-1">Usage example</a><a class="docs-heading-anchor-permalink" href="#Usage-example-1" title="Permalink"></a></h1><p>Using SolverTraces.jl is very easy:</p><pre><code class="language-julia">N = 20 # Number of iterations
+
+tol = Tolerance(1e-3)
+tols = 10 .^ range(0, stop=-3, length=N)
+
+trace = SolverTrace(N, CurrentStep(N),
+                    ColumnSeparator(),
+                    Performance(100), # Could be number of points processed each iteration
+                    ColumnSeparator(),
+                    tol)
+print_header(trace)
+for i = 1:N
+    # Do work
+    # ...
+    # Set which tolerance was achieved in this iteration:
+    tol.current = tols[i]
+
+    SolverTraces.next!(trace)
+end</code></pre><p>which will give output similar to this:</p><div class="repl"><u>           Performance   Tolerance       </u>
+[<span style="color:#ff0000"> 1/20</span>] │  970.904 kHz │ <span style="color:#ff0000">1.00×10⁰  </span>(10⁻³)
+[<span style="color:#ff1b00"> 2/20</span>] │  436.679 kHz │ <span style="color:#ff1b00">6.95×10⁻¹ </span>(10⁻³)
+[<span style="color:#ff5100"> 4/20</span>] │  672.164 kHz │ <span style="color:#ff5100">3.36×10⁻¹ </span>(10⁻³)
+[<span style="color:#ff8600"> 6/20</span>] │  892.722 kHz │ <span style="color:#ff8600">1.62×10⁻¹ </span>(10⁻³)
+[<span style="color:#ffbc00"> 8/20</span>] │    1.074 MHz │ <span style="color:#ffbc00">7.85×10⁻² </span>(10⁻³)
+[<span style="color:#fff200">10/20</span>] │    1.168 MHz │ <span style="color:#fff200">3.79×10⁻² </span>(10⁻³)
+[<span style="color:#d7ff00">12/20</span>] │    1.207 MHz │ <span style="color:#d7ff00">1.83×10⁻² </span>(10⁻³)
+[<span style="color:#a1ff00">14/20</span>] │    1.303 MHz │ <span style="color:#a1ff00">8.86×10⁻³ </span>(10⁻³)
+[<span style="color:#6bff00">16/20</span>] │    1.431 MHz │ <span style="color:#6bff00">4.28×10⁻³ </span>(10⁻³)
+[<span style="color:#36ff00">18/20</span>] │    1.561 MHz │ <span style="color:#36ff00">2.07×10⁻³ </span>(10⁻³)
+[<span style="color:#00ff00">20/20</span>] │    1.685 MHz │ <span style="color:#00ff00">1.00×10⁻³ </span>(10⁻³)
+</div><h2 id="Optim.jl-1"><a class="docs-heading-anchor" href="#Optim.jl-1">Optim.jl</a><a class="docs-heading-anchor-permalink" href="#Optim.jl-1" title="Permalink"></a></h2><p>It is similarly very easy to add colour to your <a href="https://github.com/JuliaNLSolvers/Optim.jl/">Optim.jl</a> runs:</p><pre><code class="language-julia">f(x) = (1.0 - x[1])^2 + 100.0 * (x[2] - x[1]^2)^2
+x0 = [0.0, 0.0]
+
+max_iter = 100
+tol = 1e-8
+
+value = ScalarColumn(Inf, &quot;Value&quot;)
+tolerance = Tolerance(tol, &quot;|∇|&quot;)
+
+trace = SolverTrace(max_iter,
+                    CurrentStep(max_iter), ColumnSeparator(), value, tolerance,
+                    print_interval=1)
+trace_callback = opt_state -&gt; begin
+    tolerance.current = opt_state.g_norm
+    value.n = opt_state.value
+    SolverTraces.next!(trace)
+    false
+end
+options = Optim.Options(iterations=max_iter, g_tol=tol,
+                        callback=trace_callback)
+print_header(trace)
+optimize(f, x0, options)</code></pre><p>which will result in something similar to</p><div class="repl"><u>                Value |∇|             </u>
+[<span style="color:#ff0000">  1/100</span>] │ 9.507e-01 <span style="color:#ff5500">4.58×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff0500">  2/100</span>] │ 9.507e-01 <span style="color:#ff6c00">2.02×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff0a00">  3/100</span>] │ 9.507e-01 <span style="color:#ff6a00">2.17×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff0f00">  4/100</span>] │ 9.262e-01 <span style="color:#ff5200">5.24×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff1500">  5/100</span>] │ 8.292e-01 <span style="color:#ff5700">4.26×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff1a00">  6/100</span>] │ 8.292e-01 <span style="color:#ff5700">4.27×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff1f00">  7/100</span>] │ 8.139e-01 <span style="color:#ff6000">3.11×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff2400">  8/100</span>] │ 7.570e-01 <span style="color:#ff5f00">3.22×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff2900">  9/100</span>] │ 7.383e-01 <span style="color:#ff6700">2.42×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff2e00"> 10/100</span>] │ 6.989e-01 <span style="color:#ff6700">2.43×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff3400"> 11/100</span>] │ 6.800e-01 <span style="color:#ff6b00">2.12×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff3900"> 12/100</span>] │ 6.475e-01 <span style="color:#ff6f00">1.81×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff3e00"> 13/100</span>] │ 6.377e-01 <span style="color:#ff6a00">2.15×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff4300"> 14/100</span>] │ 5.978e-01 <span style="color:#ff7200">1.65×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff4800"> 15/100</span>] │ 5.978e-01 <span style="color:#ff6300">2.78×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff4d00"> 16/100</span>] │ 5.476e-01 <span style="color:#ff6700">2.43×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff5200"> 17/100</span>] │ 5.449e-01 <span style="color:#ff7000">1.75×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff5800"> 18/100</span>] │ 5.091e-01 <span style="color:#ff7500">1.47×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff5d00"> 19/100</span>] │ 5.091e-01 <span style="color:#ff6200">2.93×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff6200"> 20/100</span>] │ 4.564e-01 <span style="color:#ff6700">2.39×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff6700"> 21/100</span>] │ 4.564e-01 <span style="color:#ff5700">4.39×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff6c00"> 22/100</span>] │ 3.654e-01 <span style="color:#ff5a00">3.91×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff7100"> 23/100</span>] │ 3.654e-01 <span style="color:#ff5c00">3.66×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff7600"> 24/100</span>] │ 2.994e-01 <span style="color:#ff6300">2.79×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff7c00"> 25/100</span>] │ 2.994e-01 <span style="color:#ff5c00">3.62×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff8100"> 26/100</span>] │ 2.598e-01 <span style="color:#ff6100">2.98×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff8600"> 27/100</span>] │ 2.266e-01 <span style="color:#ff5400">4.85×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff8b00"> 28/100</span>] │ 1.445e-01 <span style="color:#ff5c00">3.58×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff9000"> 29/100</span>] │ 1.445e-01 <span style="color:#ff6100">2.98×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff9500"> 30/100</span>] │ 1.445e-01 <span style="color:#ff6700">2.45×10⁻² </span>(10⁻⁸)
+[<span style="color:#ff9b00"> 31/100</span>] │ 9.866e-02 <span style="color:#ff6e00">1.91×10⁻² </span>(10⁻⁸)
+[<span style="color:#ffa000"> 32/100</span>] │ 9.866e-02 <span style="color:#ff6500">2.64×10⁻² </span>(10⁻⁸)
+[<span style="color:#ffa500"> 33/100</span>] │ 6.483e-02 <span style="color:#ff7300">1.58×10⁻² </span>(10⁻⁸)
+[<span style="color:#ffaa00"> 34/100</span>] │ 6.483e-02 <span style="color:#ff6f00">1.84×10⁻² </span>(10⁻⁸)
+[<span style="color:#ffaf00"> 35/100</span>] │ 5.485e-02 <span style="color:#ff8b00">6.61×10⁻³ </span>(10⁻⁸)
+[<span style="color:#ffb400"> 36/100</span>] │ 4.880e-02 <span style="color:#ff6e00">1.88×10⁻² </span>(10⁻⁸)
+[<span style="color:#ffb900"> 37/100</span>] │ 1.220e-02 <span style="color:#ff7400">1.49×10⁻² </span>(10⁻⁸)
+[<span style="color:#ffbf00"> 38/100</span>] │ 1.220e-02 <span style="color:#ff8600">7.78×10⁻³ </span>(10⁻⁸)
+[<span style="color:#ffc400"> 39/100</span>] │ 1.220e-02 <span style="color:#ff8b00">6.49×10⁻³ </span>(10⁻⁸)
+[<span style="color:#ffc900"> 40/100</span>] │ 5.976e-03 <span style="color:#ffa400">2.70×10⁻³ </span>(10⁻⁸)
+[<span style="color:#ffce00"> 41/100</span>] │ 5.976e-03 <span style="color:#ff9d00">3.46×10⁻³ </span>(10⁻⁸)
+[<span style="color:#ffd300"> 42/100</span>] │ 2.624e-03 <span style="color:#ffb400">1.52×10⁻³ </span>(10⁻⁸)
+[<span style="color:#ffd800"> 43/100</span>] │ 2.624e-03 <span style="color:#ffb700">1.34×10⁻³ </span>(10⁻⁸)
+[<span style="color:#ffde00"> 44/100</span>] │ 2.624e-03 <span style="color:#ffba00">1.23×10⁻³ </span>(10⁻⁸)
+[<span style="color:#ffe300"> 45/100</span>] │ 3.583e-04 <span style="color:#ffc000">9.66×10⁻⁴ </span>(10⁻⁸)
+[<span style="color:#ffe800"> 46/100</span>] │ 3.583e-04 <span style="color:#ffdc00">3.54×10⁻⁴ </span>(10⁻⁸)
+[<span style="color:#ffed00"> 47/100</span>] │ 4.827e-05 <span style="color:#fff800">1.27×10⁻⁴ </span>(10⁻⁸)
+[<span style="color:#fff200"> 48/100</span>] │ 4.827e-05 <span style="color:#efff00">5.66×10⁻⁵ </span>(10⁻⁸)
+[<span style="color:#fff700"> 49/100</span>] │ 4.827e-05 <span style="color:#caff00">1.50×10⁻⁵ </span>(10⁻⁸)
+[<span style="color:#fffc00"> 50/100</span>] │ 3.590e-05 <span style="color:#c9ff00">1.45×10⁻⁵ </span>(10⁻⁸)
+[<span style="color:#fcff00"> 51/100</span>] │ 1.332e-05 <span style="color:#c9ff00">1.42×10⁻⁵ </span>(10⁻⁸)
+[<span style="color:#f7ff00"> 52/100</span>] │ 1.565e-06 <span style="color:#acff00">4.92×10⁻⁶ </span>(10⁻⁸)
+[<span style="color:#f2ff00"> 53/100</span>] │ 1.565e-06 <span style="color:#a2ff00">3.46×10⁻⁶ </span>(10⁻⁸)
+[<span style="color:#edff00"> 54/100</span>] │ 1.565e-06 <span style="color:#7dff00">9.10×10⁻⁷ </span>(10⁻⁸)
+[<span style="color:#e8ff00"> 55/100</span>] │ 1.565e-06 <span style="color:#75ff00">6.87×10⁻⁷ </span>(10⁻⁸)
+[<span style="color:#e3ff00"> 56/100</span>] │ 4.966e-07 <span style="color:#70ff00">5.78×10⁻⁷ </span>(10⁻⁸)
+[<span style="color:#deff00"> 57/100</span>] │ 2.273e-07 <span style="color:#47ff00">1.31×10⁻⁷ </span>(10⁻⁸)
+[<span style="color:#d8ff00"> 58/100</span>] │ 2.120e-07 <span style="color:#36ff00">7.11×10⁻⁸ </span>(10⁻⁸)
+[<span style="color:#d3ff00"> 59/100</span>] │ 6.942e-08 <span style="color:#3aff00">8.18×10⁻⁸ </span>(10⁻⁸)
+[<span style="color:#ceff00"> 60/100</span>] │ 1.876e-08 <span style="color:#15ff00">2.13×10⁻⁸ </span>(10⁻⁸)
+[<span style="color:#c9ff00"> 61/100</span>] │ 1.876e-08 <span style="color:#00ff00">9.27×10⁻⁹ </span>(10⁻⁸)
+ * Status: success
+
+ * Candidate solution
+    Minimizer: [1.00e+00, 1.00e+00]
+    Minimum:   3.525527e-09
+
+ * Found with
+    Algorithm:     Nelder-Mead
+    Initial Point: [0.00e+00, 0.00e+00]
+
+ * Convergence measures
+    √(Σ(yᵢ-ȳ)²)/n ≤ 1.0e-08
+
+ * Work counters
+    Seconds run:   0  (vs limit Inf)
+    Iterations:    60
+    f(x) calls:    118
+</div><h1 id="Reference-1"><a class="docs-heading-anchor" href="#Reference-1">Reference</a><a class="docs-heading-anchor-permalink" href="#Reference-1" title="Permalink"></a></h1><article class="docstring"><header><a class="docstring-binding" id="SolverTraces.SolverTrace" href="#SolverTraces.SolverTrace"><code>SolverTraces.SolverTrace</code></a> — <span class="docstring-category">Type</span></header><section><div><pre><code class="language-julia">SolverTrace(num_steps, i, print_interval, io, progress, columns, callbacks)</code></pre><p>Represents a solver trace for <code>num_steps</code> iterations, <code>i</code> being the current one. Each time <a href="#SolverTraces.next!"><code>next!</code></a> is called, <code>i</code> is incremented by one, and if a multiple of <code>print_interval</code> is reached, a line is printed in the trace. Optionally (default), a <code>ProgressMeter.Progress</code> is shown as well, providing progress information between solver trace printouts.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/jagot/SolverTraces.jl/blob/d38bc5899638fd34cff16681d686cb526253eefe/src/solver_trace.jl#LL1-L10">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="SolverTraces.SolverTrace" href="#SolverTraces.SolverTrace"><code>SolverTraces.SolverTrace</code></a> — <span class="docstring-category">Type</span></header><section><div><pre><code class="language-julia">SolverTrace(num_steps[, column=CurrentStep(num_steps), columns...;
+                        io=stdout, num_printouts=10, progress_meter=true,
+                        print_interval, kwargs...])</code></pre><p>Construct a <a href="#SolverTraces.SolverTrace"><code>SolverTrace</code></a> for <code>num_steps</code> iterations, with the <code>columns</code> that are to appear in the solver trace. The solver trace is printed to <code>io</code>, <code>num_printouts</code> lines will appear; alternatively, the <code>print_interval</code> can be specified directly. Below the solver trace, a progressbar is displayed, unless <code>!progress_meter</code>. <code>kwargs...</code> are passed on to <code>ProgressMeter.Progress</code>.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/jagot/SolverTraces.jl/blob/d38bc5899638fd34cff16681d686cb526253eefe/src/solver_trace.jl#LL21-L32">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="SolverTraces.print_header" href="#SolverTraces.print_header"><code>SolverTraces.print_header</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">print_header(s)</code></pre><p>Print the associated header of the <a href="#SolverTraces.SolverTrace"><code>SolverTrace</code></a> <code>s</code>.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/jagot/SolverTraces.jl/blob/d38bc5899638fd34cff16681d686cb526253eefe/src/solver_trace.jl#LL54-L58">source</a></section></article><article class="docstring"><header><a class="docstring-binding" id="SolverTraces.next!" href="#SolverTraces.next!"><code>SolverTraces.next!</code></a> — <span class="docstring-category">Function</span></header><section><div><pre><code class="language-julia">next!(fun, s::SolverTrace; kwargs...)</code></pre><p>Signal to the <a href="#SolverTraces.SolverTrace"><code>SolverTrace</code></a> <code>s</code> that the next iteration has been performed, increasing the internal counter <code>s.i</code>. If a multiple of <code>s.print_interval</code> is reached, a line in the solver trace is printed, formatting each and every trace column, the callback function <code>fun</code> is called, as well as all the registered callbacks.</p><p><code>kwargs</code> are passed on to <code>ProgressMeter.next!</code> to allow e.g. <code>showvalues</code> functionality.</p></div><a class="docs-sourcelink" target="_blank" href="https://github.com/jagot/SolverTraces.jl/blob/d38bc5899638fd34cff16681d686cb526253eefe/src/solver_trace.jl#LL71-L82">source</a></section></article></article><nav class="docs-footer"><a class="docs-footer-nextpage" href="columns/">Solver Trace Columns »</a></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> on <span class="colophon-date" title="Monday 10 February 2020 03:12">Monday 10 February 2020</span>. Using Julia version 1.0.5.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
