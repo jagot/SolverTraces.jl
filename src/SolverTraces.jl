@@ -22,6 +22,7 @@ Formatting.format(c::TraceColumn, i::Integer) =
 
 include("colors.jl")
 include("current_step.jl")
+include("units.jl")
 include("performance.jl")
 include("scalar_column.jl")
 include("tolerance.jl")
