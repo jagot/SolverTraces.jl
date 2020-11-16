@@ -11,7 +11,7 @@ mutable struct ScalarColumn{R,N} <: TraceColumn
 end
 
 scalar_format(::Type{R}, signed) where R =
-    FormatExpr("{1:$(signed ? '+' : "")9.3e}")
+    FormatExpr("{1:$(signed ? '+' : "")10.3e}")
 
 scalar_format(::Type{R}, signed) where {R<:Integer} =
     FormatExpr("{1:$(signed ? '+' : "")4d} ")
