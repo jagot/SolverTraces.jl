@@ -62,6 +62,8 @@ print_header(s::SolverTrace) =
             join(map(column -> column.header, s.columns), " "),
             crayon"reset")
 
+print_header(::Nothing) = nothing
+
 Formatting.format(s::SolverTrace) =
     join(map(column -> format(column, s.i), s.columns), " ")
 
