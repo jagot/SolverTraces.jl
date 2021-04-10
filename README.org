@@ -4,8 +4,7 @@
 
 [[https://jagot.github.io/SolverTraces.jl/stable][https://img.shields.io/badge/docs-stable-blue.svg]]
 [[https://jagot.github.io/SolverTraces.jl/dev][https://img.shields.io/badge/docs-dev-blue.svg]]
-[[https://travis-ci.com/jagot/SolverTraces.jl][https://travis-ci.com/jagot/SolverTraces.jl.svg?branch=master]]
-[[https://ci.appveyor.com/project/jagot/SolverTraces-jl][https://img.shields.io/appveyor/build/jagot/solvertraces-jl.svg]]
+[[https://github.com/jagot/SolverTraces.jl/actions][https://github.com/jagot/SolverTraces.jl/workflows/CI/badge.svg]]
 [[https://codecov.io/gh/jagot/SolverTraces.jl][https://codecov.io/gh/jagot/SolverTraces.jl/branch/master/graph/badge.svg]]
 
 Small utility library for printing solver traces. Based around
