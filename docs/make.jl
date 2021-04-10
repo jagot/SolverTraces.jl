@@ -1,8 +1,5 @@
 using Documenter, SolverTraces
 
-DocMeta.setdocmeta!(SolverTraces, :DocTestSetup,
-                    :(using SolverTraces, Unitful); recursive=true)
-
 makedocs(;
     modules=[SolverTraces],
     format=Documenter.HTML(assets=["assets/style.css"]),
@@ -14,6 +11,7 @@ makedocs(;
     repo="https://github.com/jagot/SolverTraces.jl/blob/{commit}{path}#L{line}",
     sitename="SolverTraces.jl",
     authors="Stefanos Carlström <stefanos.carlstrom@gmail.com>",
+    doctest=false
 )
 
 deploydocs(;
