@@ -16,4 +16,5 @@ makedocs(;
 
 deploydocs(;
     repo="github.com/jagot/SolverTraces.jl",
+    push_preview = true
 )
