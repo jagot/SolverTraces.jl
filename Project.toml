@@ -1,7 +1,7 @@
 name = "SolverTraces"
 uuid = "619b3e1a-df4a-11e8-3b0b-a997e0925a8d"
 authors = ["Stefanos Carlström <stefanos.carlstrom@gmail.com>"]
-version = "0.1.1"
+version = "0.1.2"
 
 [deps]
 Compat = "34da2185-b29b-5c13-b0c7-acf172513d20"
