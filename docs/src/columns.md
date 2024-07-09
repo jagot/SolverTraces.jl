@@ -20,6 +20,11 @@ SolverTraces.shift_prefix
 SolverTraces.SI_prefix_convert
 ```
 
+## ETA
+```@docs
+ETA
+```
+
 ## ScalarColumn
 ```@docs
 ScalarColumn
