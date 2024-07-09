@@ -58,7 +58,7 @@ function Tolerance(target::T,header="Tolerance";print_target::Bool=true) where T
     Tolerance{T}(target,T(Inf),fmt,tol_fmt,lc,rpad(header,length(target_str)+10))
 end
 
-function(t::Tolerance{T})(i::Integer) where T
+function (t::Tolerance{T})(i::Integer) where T
     if isinf(t.current) || isnan(t.current)
         t.lc(one(T)),string(t.current)
     else

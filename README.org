@@ -38,10 +38,10 @@ Small utility library for printing solver traces. Based around
 
   num_steps = 1000
   load = 10
-  trace = SolverTrace(num_steps)
-  # How much load per second can be handled
-  push!(trace, Performance(load))
-  push!(trace, Random())
+  trace = SolverTrace(num_steps,
+                      CurrentStep(num_steps),
+                      Performance(load), # How much load per second can be handled
+                      Random())
 
   print_header(trace)
   for i = 1:num_steps

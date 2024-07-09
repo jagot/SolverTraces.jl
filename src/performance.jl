@@ -20,7 +20,7 @@ Constructe a [`Performance`](@ref) trace column, for `load` number of
 _units_ per iteration.
 """
 function Performance(load::Number, load_name::String="Performance")
-    Performance(load, fmt(">12s", load_name), time(), FormatExpr("{1:8.3f} {2:3s}"))
+    Performance(load, pyfmt(">12s", load_name), time(), FormatExpr("{1:8.3f} {2:3s}"))
 end
 
 function (p::Performance)(i::Integer)

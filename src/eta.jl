@@ -23,7 +23,7 @@ function ETA(steps::Int, name::String="ETA")
     # i.e. less than 100 hours. Is there a way to make fmt always
     # occupy e.g. 12 characters (and right-shifted), but keep, the
     # standard format 02d?
-    ETA(steps, fmt(">8s", name), time(), FormatExpr("{1:02d}:{2:02d}:{3:02d}"))
+    ETA(steps, pyfmt(">8s", name), time(), FormatExpr("{1:02d}:{2:02d}:{3:02d}"))
 end
 
 function (p::ETA)(i::Integer)
