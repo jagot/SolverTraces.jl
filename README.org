@@ -8,13 +8,13 @@
 [[https://codecov.io/gh/jagot/SolverTraces.jl][https://codecov.io/gh/jagot/SolverTraces.jl/branch/master/graph/badge.svg]]
 
 Small utility library for printing solver traces. Based around
-[[https://github.com/JuliaIO/Formatting.jl][Formatting.jl]] and [[https://github.com/KristofferC/Crayons.jl][Crayons.jl]].
+[[https://github.com/JuliaString/Format.jl][Format.jl]] and [[https://github.com/KristofferC/Crayons.jl][Crayons.jl]].
 
 * Usage example
 
 #+BEGIN_SRC julia
   using SolverTraces
-  using Formatting
+  using Format
   using Crayons
 
   # Custom column type, needs to inherit TraceColumn and have a fmt

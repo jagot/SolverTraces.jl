@@ -39,7 +39,7 @@ end-points are returned instead, for use with [`sat_ilerp`](@ref).
 red_green_scale() = @static Sys.iswindows() ? [crayon"light_red", crayon"yellow", crayon"light_green"] : ((255, 0, 0), (0, 255, 0))
 
 # String wrapping proxy object used to force Crayons being formatted
-# as strings; necessary to play well with Formatting.jl. If a Crayon
+# as strings; necessary to play well with Format.jl. If a Crayon
 # object is substituted directly into a formatting string, the escape
 # code is printed (in the correct colour, style &c), but then the
 # cancelling escape code is also printed.

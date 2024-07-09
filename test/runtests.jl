@@ -1,5 +1,5 @@
 using SolverTraces
-using Formatting
+using Format
 using Test
 
 stripesc(a::T) where {T<:String} = replace(a, r"\e\[(.*?)m" => "")

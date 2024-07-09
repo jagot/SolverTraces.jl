@@ -1,6 +1,5 @@
 [deps]
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
-SolverTraces = "619b3e1a-df4a-11e8-3b0b-a997e0925a8d"
 
 [compat]
-Documenter = "0.27"
+Documenter = "1"
