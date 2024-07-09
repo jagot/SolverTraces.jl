@@ -64,7 +64,7 @@ print_header(s::SolverTrace) =
 
 print_header(::Nothing) = nothing
 
-Formatting.format(s::SolverTrace) =
+Format.format(s::SolverTrace) =
     join(map(column -> format(column, s.i), s.columns), " ")
 
 next!(::Nothing; kwargs...) = nothing
