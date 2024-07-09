@@ -89,3 +89,27 @@ end
         @test iterations == iterations2 == [1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
     end
 end
+
+
+@testset "All columns" begin
+    n = 10
+    scfun = ScalarColumn(sqrt, "Sqrt", Float64)
+    scnum = ScalarColumn(0.1, "Square")
+    tol = Tolerance(0.1)
+    trace = SolverTrace(n,
+                        CurrentStep(n),
+                        ColumnSeparator(),
+                        Performance(10),
+                        ETA(n),
+                        ColumnSeparator(),
+                        scfun,
+                        scnum,
+                        tol)
+
+    print_header(trace)
+    for i = 1:n
+        tol.current = n - i
+        scnum.n = i^2
+        SolverTraces.next!(trace)
+    end
+end
